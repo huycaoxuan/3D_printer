@@ -1,0 +1,261 @@
+# This file contains pin mappings with a MKS Gen-L v2.1 board. To use
+# this config, the firmware should be compiled for the AVR atmega2560.
+# For coreXY 310 printer by HuyCX
+
+
+[stepper_x]
+step_pin: ar54
+dir_pin: !ar55
+enable_pin: !ar38
+step_distance: .0125
+endstop_pin: ^!ar3
+position_endstop: 0
+#position_min: 20
+position_max: 310 #xem lai cho nay
+homing_speed: 20
+
+[tmc2208 stepper_x]
+uart_pin: ar40
+microsteps: 16
+interpolate: True
+run_current: 0.550
+sense_resistor: 0.110
+stealthchop_threshold: 100
+
+[stepper_y]
+step_pin: ar60
+dir_pin: !ar61
+enable_pin: !ar56
+step_distance: .0125
+endstop_pin: ^ar14
+position_endstop: 0
+#position_min: 20
+position_max: 310 #xem lai cho nay
+homing_speed: 20
+
+[tmc2208 stepper_y]
+uart_pin: analog5
+microsteps: 16
+interpolate: True
+run_current: 0.550
+sense_resistor: 0.110
+stealthchop_threshold: 100
+
+##################################
+#First Z (Left)                  #
+##################################
+[stepper_z]
+step_pin: ar46
+dir_pin: ar48
+enable_pin: !ar62
+step_distance: 0.0025
+endstop_pin: probe:z_virtual_endstop
+position_max: 310
+homing_speed: 5
+position_min: -2 # The Z carriage may need to travel below the Z=0
+
+[tmc2208 stepper_z]
+uart_pin: ar42
+microsteps: 16
+interpolate: True
+run_current: 0.750
+sense_resistor: 0.110
+stealthchop_threshold: 5
+
+##################################
+#Second Z (Right)                #
+##################################
+[stepper_z1]
+step_pin: ar36
+dir_pin: ar34
+enable_pin: !ar30
+step_distance: 0.0025
+
+[tmc2208 stepper_z1]
+uart_pin: ar20
+microsteps: 16
+interpolate: True
+run_current: 0.750
+sense_resistor: 0.110
+stealthchop_threshold: 5
+
+#[stepper_extruder]
+#microsteps: 16
+#rotation_distance: 7.616
+
+
+[extruder]
+pressure_advance: 0.25
+step_pin: ar26
+dir_pin: ar28
+enable_pin: !ar24
+microsteps: 16
+rotation_distance: 7.616
+nozzle_diameter: 0.400
+filament_diameter: 1.750
+heater_pin: ar10
+sensor_type: EPCOS 100K B57560G104F
+#sensor_type: NTC 100K MGB18-104F39050L32
+#sensor_type: NTC 100K beta 3950
+#sensor_type: Honeywell 100K 135-104LAG-J01
+sensor_pin: analog13
+#control: pid
+#// PID parameters: 
+#pid_Kp: 18
+#pid_Ki: 1.064
+#pid_Kd: 138.254
+min_temp: 0
+max_temp: 260
+
+
+[tmc2208 extruder]
+uart_pin: ar44
+interpolate: True
+run_current: 0.550
+sense_resistor: 0.110
+stealthchop_threshold: 0
+
+
+# Heater and temperature sensor verification. Heater verification is
+# automatically enabled for each heater that is configured on the
+# printer. Use verify_heater sections to change the default settings.
+
+[verify_heater extruder]
+heating_gain: 0.75
+#   The minimum temperature (in Celsius) that the heater must increase
+#   by when approaching a new target temperature. The default is 2.
+check_gain_time: 90
+#   The amount of time (in seconds) that the heating_gain must be met
+#   in before an error is raised. The default is 20 seconds for
+#   extruders and 60 seconds for heater_bed.
+hysteresis: 10
+#   The difference between the target temperature and the current
+#   temperature for the heater to be considered within range of the
+#   target temperature. The default is 5.
+max_error: 200
+#   The maximum temperature difference a heater that falls outside the
+#   target temperature range may accumulate before an error is
+#   raised. For example, if the target temperature is 200, the
+#   hysteresis is 5, the max_error is 120, and the temperature is
+#   reported at 185 degrees for 12 seconds then an error would be
+#   raised (or 24 seconds at 190, or 120 seconds at 194, etc.). The
+#   default is 120.
+
+[heater_bed]
+heater_pin: ar8
+sensor_type: EPCOS 100K B57560G104F
+#sensor_type: NTC 100K MGB18-104F39050L32
+#sensor_type: NTC 100K beta 3950
+sensor_pin: analog14
+#control: pid
+#pid_Kp: 70
+#pid_Ki: 10
+#pid_Kd: 30
+min_temp: 0
+max_temp: 130
+
+[fan]
+pin: ar9
+
+[heater_fan my_nozzle_fan]
+pin: ar7
+heater: extruder
+heater_temp: 50.0
+fan_speed: 0.8
+
+[mcu]
+serial: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+pin_map: arduino
+
+[printer]
+kinematics: corexy
+max_velocity: 300
+max_accel: 3000
+max_z_velocity: 15
+max_z_accel: 100
+
+########################################
+# EXP1 / EXP2 (display) pins
+########################################
+
+#[board_pins]
+# aliases:
+    # EXP1 header
+#    EXP1_1=ar37, EXP1_3=ar17, EXP1_5=ar23, EXP1_7=ar27,  EXP1_9=<GND>,
+ #   EXP1_2=ar35, EXP1_4=ar16, EXP1_6=ar25, EXP1_8=ar29, EXP1_10=<5V>,
+    # EXP2 header
+ #   EXP2_1=ar50, EXP2_3=ar31, EXP2_5=ar33, EXP2_7=ar49, EXP2_9=<GND>,
+ #   EXP2_2=ar52, EXP2_4=ar53, EXP2_6=ar51,  EXP2_8=<RST>, EXP2_10=<NC>
+    # Pins EXP2_1, EXP2_6, EXP2_2 are also MISO, MOSI, SCK of bus "ssp1"
+
+######################################################################
+# Fysetc Mini 12864Panel v2.1 (with neopixel backlight leds)
+######################################################################
+
+[display]
+lcd_type: uc1701
+cs_pin: ar17 #EXP1_3
+a0_pin: ar16 #EXP1_4
+rst_pin: ar23 #EXP1_5
+contrast: 63
+encoder_pins: ^ar33, ^ar31 #^EXP2_5, ^EXP2_3
+click_pin: ^!ar35 #^!EXP1_2
+## Some micro-controller boards may require an spi bus to be specified:
+#spi_bus: spi
+## Alternatively, some micro-controller boards may work with software spi:
+#spi_software_miso_pin: EXP2_1
+#spi_software_mosi_pin: EXP2_6
+#spi_software_sclk_pin: EXP2_2
+
+[output_pin beeper]
+pin: ar37 #EXP1_1
+
+[neopixel fysetc_mini12864]
+pin: ar25 #EXP1_6
+chain_count: 3
+color_order: RGB
+initial_RED: 0.4
+initial_GREEN: 0.4
+initial_BLUE: 0.4
+
+
+[probe]
+pin: ^ar18
+x_offset: 28
+y_offset: -5
+z_offset: 1.05
+pin_move_time: 0.4
+
+
+[safe_z_home]
+home_xy_position: 155,155 # Change coordinates to the center of your print bed
+speed: 50
+z_hop: 10                 # Move up 10mm
+z_hop_speed: 5
+
+# Example bed_mesh config section
+[bed_mesh]
+speed: 120
+horizontal_move_z: 10
+mesh_min: 40,40 #xem lai cho nay
+mesh_max: 290,290 #xem lai cho nay
+probe_count: 3,3
+algorithm: bicubic
+fade_start: 1
+fade_end: 10
+fade_target: 0
+
+#*# <---------------------- SAVE_CONFIG ---------------------->
+#*# DO NOT EDIT THIS BLOCK OR BELOW. The contents are auto-generated.
+#*#
+#*# [extruder]
+#*# control = pid
+#*# pid_kp = 18.243
+#*# pid_ki = 0.593
+#*# pid_kd = 140.239
+#*#
+#*# [heater_bed]
+#*# control = pid
+#*# pid_kp = 71.296
+#*# pid_ki = 0.867
+#*# pid_kd = 1465.142
