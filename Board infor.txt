@@ -1,0 +1,50 @@
+System Information
+ ReplicatorG version: 0040
+ Java version: 1.6.0_16
+
+Machine
+ Profile Name: The Replicator Dual
+ Driver Type: MightyBoard
+ Name: The FF Creator
+ Motherboard firmware version: Unknown v7.6
+ Motherboard communication statistics
+  Number of packets received from the USB interface:0
+  Number of packets sent over the RS485 interface:0
+  Number of packets sent over the RS485 interface that were not responded to:0
+  Number of packet retries attempted:0
+  Number of bytes received over the RS485 interface that were discarded as noise:0
+
+Machine Driver XML:
+<machine experimental="0">
+		<name>The Replicator Dual</name>
+		<geometry type="cartesian">
+			<!-- different pulleys on X and Y axii -->
+			<axis endstops="max" homingfeedrate="2500" id="x" length="227" maxfeedrate="18000" stepspermm="94.139704"/>  <!-- Pulley dia: 10.82mm / 1/8 step = 1/(10.82 * pi / 1600) -->
+			<axis endstops="max" homingfeedrate="2500" id="y" length="148" maxfeedrate="18000" stepspermm="94.139704"/>  <!-- Pulley dia: 10.82mm / 1/8 step = 1/(10.82 * pi / 1600) -->
+			<axis endstops="min" homingfeedrate="1100" id="z" length="150" maxfeedrate="1170" stepspermm="400"/> <!-- Actual length is 157mm, we reserve ~5mm for safety. TR-8x8 Z axis = 1/(8/1600) -->
+			<axis endstops="none" id="a" length="100000" maxfeedrate="1600" stepspermm="96.275201870333662468889989185642"/> <!-- stepspermm is incoming filament length, see comment at bottom for explanation -->
+			<axis endstops="none" id="b" length="100000" maxfeedrate="1600" stepspermm="96.275201870333662468889989185642"/> <!-- stepspermm is incoming filament length, see comment at bottom for explanation -->
+		</geometry>
+		<tools>
+			<tool default_rpm="3" diameter="0.4" fan="true" heatedplatform="false" heater="true" index="1" model="Mk8" motor="true" motor_steps="3200" name="Mk8 Left" stepper_axis="b" type="extruder"/>
+			<tool default_rpm="3" diameter="0.4" fan="true" heatedplatform="true" heater="true" index="0" model="Mk8" motor="true" motor_steps="3200" name="Mk8 Right" stepper_axis="a" type="extruder"/>
+		</tools>
+		<wipes>
+			<wipe X1="-135.0" X2="-135.0" Y1="55.0" Y2="45.0" index="0" purge_duration="1000" purge_rpm="5.0" reverse_duration="15" reverse_rpm="35.0" wait="1000.0"/>
+			<wipe X1="-135.0" X2="-135.0" Y1="55.0" Y2="45.0" index="1" purge_duration="1000" purge_rpm="5.0" reverse_duration="15" reverse_rpm="35.0" wait="1000.0"/>
+		</wipes>
+		<offsets>
+			<offset xNozzle="33.0" yNozzle="0.0" zNozzle="0.0"/>
+		</offsets>
+		<clamps/>
+		<driver name="mightyboard">
+			<!-- optional: <portname>COM1</portname> -->
+			<rate>115200</rate>
+		</driver>
+		<warmup>
+		</warmup>
+		<cooldown>
+M18 (Turn off steppers after a build.)
+		</cooldown>
+		<bookend dualstart="machines/replicator/Dualstrusion_start.gcode" end="machines/replicator/Dual_Head_end.gcode" start="machines/replicator/Dual_Head_start.gcode"/>
+	</machine>
